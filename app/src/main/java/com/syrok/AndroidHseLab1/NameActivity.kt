@@ -1,9 +1,7 @@
 package com.syrok.AndroidHseLab1
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,17 +39,20 @@ class NameActivity : ComponentActivity() {
                         val greeting = intent.getStringExtra("greeting")
                         var name by rememberSaveable { mutableStateOf("") }
 
-                        Text(greeting.toString(), fontSize = 32.sp)
+                        Text(greeting.toString(), fontSize = 32.sp,lineHeight = 32.sp)
                         TextField(
                             label = { Text("Введите ваше имя:") },
                             value = name,
-                            onValueChange = { newText -> name = newText }
+                            maxLines = 2,
+                            onValueChange = {
+                                if (it.length <= 30) name = it
+                            }
                         )
 
                         Button(onClick = {
                             setResult(RESULT_OK, Intent().putExtra("name", "$greeting, $name!"))
                             finish()
-                        }) {
+                        }, enabled = name.isNotEmpty()) {
                             Text("Обратно к приветствию")
                         }
                     }
