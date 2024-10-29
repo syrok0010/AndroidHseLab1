@@ -49,19 +49,23 @@ class MainActivity : ComponentActivity() {
                         TextField(
                             label = { Text("Введите приветствие:") },
                             value = greeting,
-                            onValueChange = { newText -> greeting = newText }
+                            maxLines = 2,
+                            onValueChange = {
+                                if (it.length <= 30) greeting = it
+                            }
                         )
 
                         Button(onClick = {
                             activityLauncher.launch(greeting)
-                        }) {
+                        }, enabled = greeting.isNotEmpty()) {
                             Text("К вводу имени")
                         }
 
                         if (fullGreeting.isNotEmpty()) {
                             Text(
                                 text = fullGreeting,
-                                fontSize = 48.sp
+                                fontSize = 48.sp,
+                                lineHeight = 48.sp
                             )
                         }
                     }
